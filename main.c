@@ -51,6 +51,12 @@ int main(int argc, char **argv)
 
     while (game.state != QUIT_STATE)
     {
+        if (game.state != RUNNING_STATE)
+        {
+            SDL_Delay(1000);
+            reset_game(&game);
+        }
+
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -69,7 +75,8 @@ int main(int argc, char **argv)
         SDL_RenderClear(renderer);
         render_game(renderer, &game);
         SDL_RenderPresent(renderer);
-        SDL_Delay(1000/60); // 60fps
+
+        SDL_Delay(1000/60);
     }
 
     SDL_DestroyRenderer(renderer);
