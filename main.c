@@ -49,12 +49,13 @@ int main(int argc, char **argv)
 
     SDL_Event event;
 
+    int wait_counter = 0;
+
     while (game.state != QUIT_STATE)
     {
         if (game.state != RUNNING_STATE)
         {
-            SDL_Delay(1000);
-            reset_game(&game);
+            wait_counter++;
         }
 
         while (SDL_PollEvent(&event))
@@ -71,6 +72,13 @@ int main(int argc, char **argv)
                     break;
             }
         }
+
+        if (wait_counter == 100)
+        {
+            wait_counter = 0;
+            reset_game(&game);
+        }
+
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         render_game(renderer, &game);
